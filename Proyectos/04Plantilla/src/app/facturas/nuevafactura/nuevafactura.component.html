@@ -1,0 +1,72 @@
+<div class="card my-5">
+  <div class="card-body">
+    <div class="d-flex justify-content-between align-items-end mb-4">
+      <h3 class="mb-0">
+        {{ titulo }}
+        <!--Interpolación para enviar datos desde el .ts hacia el html-->
+      </h3>
+    </div>
+    <div class="row">
+      <form [formGroup]="frm_factura" novalidate (ngSubmit)="grabar()">
+        <!-- Campo para seleccionar Cliente -->
+        <div class="form-group mb-3">
+          <label class="form-label">Cliente</label>
+          <select class="form-control" (change)="cambio($event)">
+            <option>Seleccione una opción</option>
+            <ng-container *ngFor="let cliente of listaClientes">
+              <option [value]="cliente.idClientes">{{ cliente.Nombres }}</option>
+            </ng-container>
+          </select>
+        </div>
+
+        <!-- Campo para la Fecha -->
+        <div class="form-group mb-3">
+          <label class="form-label" for="Fecha">Fecha</label>
+          <input type="date" class="form-control" formControlName="Fecha" />
+          <div *ngIf="frm_factura.get('Fecha').invalid && frm_factura.get('Fecha').touched">
+            <small *ngIf="frm_factura.get('Fecha').hasError('required')" style="color: red">La fecha es requerida</small>
+          </div>
+        </div>
+
+        <!-- Campo para Sub_total -->
+        <div class="form-group mb-3">
+          <label class="form-label" for="Sub_total">Sub_total</label>
+          <input type="text" class="form-control" formControlName="Sub_total" (blur)="calculos()" />
+          <div *ngIf="frm_factura.get('Sub_total').invalid && frm_factura.get('Sub_total').touched">
+            <small *ngIf="frm_factura.get('Sub_total').hasError('required')" style="color: red">El Sub_total es requerido</small>
+          </div>
+        </div>
+
+        <!-- Campo para Sub_total_iva -->
+        <div class="form-group mb-3">
+          <label class="form-label" for="Sub_total_iva">Sub_total_iva</label>
+          <input type="text" class="form-control" formControlName="Sub_total_iva" />
+          <div *ngIf="frm_factura.get('Sub_total_iva').invalid && frm_factura.get('Sub_total_iva').touched">
+            <small *ngIf="frm_factura.get('Sub_total_iva').hasError('required')" style="color: red">El Sub_total_iva es requerido</small>
+          </div>
+        </div>
+
+        <!-- Campo para Valor_IVA -->
+        <div class="form-group mb-3">
+          <label class="form-label" for="Valor_IVA">Valor_IVA</label>
+          <input type="text" class="form-control" formControlName="Valor_IVA" readonly value="0.15" />
+        </div>
+
+        <!-- Campo para Total a Pagar -->
+        <div class="form-group mb-3">
+          <label class="form-label" for="totalapagar">Total a Pagar</label>
+          <input type="text" class="form-control" [value]="totalapagar" readonly />
+        </div>
+
+        <!-- Botón para Grabar factura -->
+        <div class="d-grid mt-3">
+          <button type="submit" class="btn btn-primary" [disabled]="frm_factura.invalid">Grabar factura</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!--
+ 
+-->
