@@ -5,7 +5,7 @@ require_once("../models/productos.model.php");
 $pdf = new FPDF();
 $pdf->AddPage();
 $productos = new Producto();
-
+//
 // Encabezado del reporte
 $pdf->SetFont('Arial', 'B', 16);
 $pdf->Text(80, 10, 'Reporte de Factura');
